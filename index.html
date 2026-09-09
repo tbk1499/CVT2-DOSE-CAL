@@ -5,6 +5,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0b3d5c">
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="IV Dose">
 <title>IV Dose Calculator</title>
 <style>
 :root{--navy:#0b3d5c;--blue:#1479a8;--bg:#f3f7fa;--card:#fff;--text:#173042;--muted:#6b7d88;--line:#dbe5ea;--green:#159b68;--amber:#a56a00;--red:#b3261e}
@@ -1029,7 +1034,15 @@ function printVialLabel(){
     .mobile-print-actions{position:fixed;left:8px;right:8px;bottom:8px;display:flex;gap:8px;z-index:10}
     .mobile-print-actions button{flex:1;border:0;border-radius:10px;padding:12px;font-weight:800;font-size:14px;background:#0b3d5c;color:#fff}
     @media print{.mobile-print-actions{display:none!important}}
-  </style></head><body>${labelHtml}<div class="mobile-print-actions"><button onclick="window.print()">🖨️ พิมพ์ / PDF</button><button onclick="window.close()">ปิด</button></div></body></html>`);
+  </style></head><body>${labelHtml}<div class="mobile-print-actions"><button onclick="window.print()">🖨️ พิมพ์ / PDF</button><button onclick="window.close()">ปิด</button></div>
+<script>
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js').catch(function(err){ console.warn('Service Worker registration failed:', err); });
+  });
+}
+</script>
+</body></html>`);
   printWindow.document.close();
   printWindow.focus();
   setTimeout(()=>{ try{ printWindow.print(); }catch(e){} },350);
